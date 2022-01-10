@@ -38,6 +38,15 @@ public class Order {
         this.productList = productList;
     }
 
+    public int getTotalPrice() {
+        int totalSum = 0;
+        for (Product product:
+             productList) {
+            totalSum += product.getPrice();
+        }
+        return totalSum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

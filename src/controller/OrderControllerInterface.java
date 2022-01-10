@@ -49,4 +49,18 @@ public interface OrderControllerInterface {
      * @param orderNumber Integer
      */
     void addProductToOrder(Integer productId, Integer orderNumber);
+
+
+    /**
+     * Sorts an Order by total Price of Products
+     */
+    List<Order> sortOrderByTotalPrice();
+
+    /**
+     * Filters the Orders by a specified Product Id
+     * @param productId Integer
+     * @return List<Order>
+     */
+    List<Order> filterByProduct(Integer productId);
+
 }

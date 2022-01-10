@@ -4,13 +4,13 @@ import model.Order;
 import model.Product;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class OrderController implements OrderControllerInterface {
     private final List<Order> orderList;
-    private ProductControllerInterface productController;
+    private final ProductControllerInterface productController;
 
     public OrderController(ProductControllerInterface productController) {
         this.orderList = new ArrayList<>();
@@ -43,6 +43,7 @@ public class OrderController implements OrderControllerInterface {
     @Override
     public List<Order> getAll() {
         return orderList;
+
     }
 
     @Override
@@ -67,6 +68,26 @@ public class OrderController implements OrderControllerInterface {
                     productList.add(productController.findById(productId));
                     order.setProductList(productList);
                     return order;
-                }).collect(Collectors.toList());
+                }).toList();
+    }
+
+    @Override
+    public List<Order> sortOrderByTotalPrice() {
+        return orderList.stream().sorted(Comparator.comparingInt(Order::getTotalPrice).reversed()).toList();
+    }
+
+    @Override
+    public List<Order> filterByProduct(Integer productId) {
+        List<Order> filteredOrderList = new ArrayList<>();
+        for (Order order:
+             orderList) {
+            for (Product product:
+                 order.getProductList()) {
+                if(product.getId() == productId){
+                    filteredOrderList.add(order);
+                }
+            }
+        }
+        return filteredOrderList;
     }
 }
